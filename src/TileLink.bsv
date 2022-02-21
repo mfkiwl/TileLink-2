@@ -43,42 +43,42 @@ typedef enum {
 typedef struct {
     Bit#(3) a_opcode;
     Bit#(3) a_param;
-    Bit#(z) a_size;             // z = number of bits required for transfer size
-    Bit#(o) a_source;           // o = number of bits to identify source
-    Bit#(a) a_address;          // a = number of address bits
-    Bit#(w) a_mask;             // w = number of bytes in the mask
-    Bit#(TMul#(w, 8)) a_data;
+    Bit#(TLog#(TDiv(d, 8))) a_size;     // z = log2 number of bits required for transfer size
+    Bit#(s) a_source;                   // o = number of bits to identify source
+    Bit#(a) a_address;                  // a = number of address bits
+    Bit#(w) a_mask;                     // w = number of bytes in the mask
+    Bit#(d) a_data;
     Bool a_corrupt;       // The data in this beat is corrupt.
 
     // The below are part of the TileLink spec but are automatically provided by BlueSpec.
     // Bit#(1) a_valid
     // Bit#(1) a_ready
-} TileLinkChannelARequest#(numeric type z, numeric type o, numeric type a, numeric type w) deriving(Bits, Eq, FShow);
+} TileLinkChannelARequest#(numeric type s, numeric type a, numeric type d) deriving(Bits, Eq, FShow);
 
 `ifdef RV128
-typedef TileLinkChannelARequest#(1, 1, 128, 4) TileLinkChannelARequest32;
+typedef TileLinkChannelARequest#(1, 128, 32) TileLinkChannelARequest32;
 `elsif RV64
-typedef TileLinkChannelARequest#(1, 1, 64, 4) TileLinkChannelARequest32;
+typedef TileLinkChannelARequest#(1, 64, 32) TileLinkChannelARequest32;
 `else
-typedef TileLinkChannelARequest#(1, 1, 32, 4) TileLinkChannelARequest32;
+typedef TileLinkChannelARequest#(1, 32, 32) TileLinkChannelARequest32;
 `endif
 
 typedef struct {
     Bit#(3) d_opcode;
     Bit#(2) d_param;
-    Bit#(z) d_size;             // z = number of bits required for transfer size
+    Bit#(TLog#(TDiv(d, 8))) d_size;             // z = number of bits required for transfer size
     Bit#(o) d_source;           // o = number of bits to identify source
     Bit#(i) d_sink;             // i = number of bits to identify sink
     Bool d_denied;
-    Bit#(TMul#(w, 8)) d_data;
+    Bit#(d) d_data;
     Bool d_corrupt;
 
     // The below are part of the TileLink spec but are automatically provided by BlueSpec.
     // Bit#(1) d_valid
     // Bit#(1) d_ready
-} TileLinkChannelDResponse#(numeric type z, numeric type o, numeric type i, numeric type w) deriving(Bits, Eq, FShow);
+} TileLinkChannelDResponse#(numeric type o, numeric type i, numeric type d) deriving(Bits, Eq, FShow);
 
-typedef TileLinkChannelDResponse#(1, 1, 1, 4) TileLinkChannelDResponse32;
+typedef TileLinkChannelDResponse#(1, 1, 32) TileLinkChannelDResponse32;
 
 typedef Client#(TileLinkChannelARequest32, TileLinkChannelDResponse32) TileLinkADClient32;
 typedef Server#(TileLinkChannelARequest32, TileLinkChannelDResponse32) TileLinkADServer32;
