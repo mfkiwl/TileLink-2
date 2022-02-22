@@ -46,7 +46,7 @@ typedef struct {
     Bit#(TLog#(TDiv#(d, 8))) a_size; 
     Bit#(s) a_source;                   // o = number of bits to identify source
     Bit#(a) a_address;                  // a = number of address bits
-    Bit#(TDiv#(d, 8)) a_mask;            // w = number of bytes in the mask
+    Bit#(TDiv(d, 8)) a_mask;            // w = number of bytes in the mask
     Bit#(d) a_data;
     Bool a_corrupt;       // The data in this beat is corrupt.
 
