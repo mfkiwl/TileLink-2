@@ -43,7 +43,7 @@ typedef enum {
 typedef struct {
     Bit#(3) a_opcode;
     Bit#(3) a_param;
-    Bit#(z) a_size;             // z = number of bits required for transfer size
+    Bit#(z) a_size;             // z = log2 number of bits required for transfer size
     Bit#(o) a_source;           // o = number of bits to identify source
     Bit#(a) a_address;          // a = number of address bits
     Bit#(w) a_mask;             // w = number of bytes in the mask
@@ -56,17 +56,17 @@ typedef struct {
 } TileLinkChannelARequest#(numeric type z, numeric type o, numeric type a, numeric type w) deriving(Bits, Eq, FShow);
 
 `ifdef RV128
-typedef TileLinkChannelARequest#(1, 1, 128, 4) TileLinkChannelARequest32;
+typedef TileLinkChannelARequest#(TLog#(4), 1, 128, 4) TileLinkChannelARequest32;
 `elsif RV64
-typedef TileLinkChannelARequest#(1, 1, 64, 4) TileLinkChannelARequest32;
+typedef TileLinkChannelARequest#(TLog#(4), 1, 64, 4) TileLinkChannelARequest32;
 `else
-typedef TileLinkChannelARequest#(1, 1, 32, 4) TileLinkChannelARequest32;
+typedef TileLinkChannelARequest#(TLog#(4), 1, 32, 4) TileLinkChannelARequest32;
 `endif
 
 typedef struct {
     Bit#(3) d_opcode;
     Bit#(2) d_param;
-    Bit#(z) d_size;             // z = number of bits required for transfer size
+    Bit#(z) d_size;             // z = lot number of bits required for transfer size
     Bit#(o) d_source;           // o = number of bits to identify source
     Bit#(i) d_sink;             // i = number of bits to identify sink
     Bool d_denied;
