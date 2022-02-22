@@ -43,7 +43,7 @@ typedef enum {
 typedef struct {
     Bit#(3) a_opcode;
     Bit#(3) a_param;
-    Bit#(TLog#(TDiv#(d, 8))) a_size; 
+    Bit#(TLog#(TDiv(d, 8))) a_size;     // z = log2 number of bits required for transfer size
     Bit#(s) a_source;                   // o = number of bits to identify source
     Bit#(a) a_address;                  // a = number of address bits
     Bit#(w) a_mask;                     // w = number of bytes in the mask
@@ -66,9 +66,9 @@ typedef TileLinkChannelARequest#(1, 32, 32) TileLinkChannelARequest32;
 typedef struct {
     Bit#(3) d_opcode;
     Bit#(2) d_param;
-    Bit#(TLog#(TDiv#(d, 8))) d_size;
-    Bit#(o) d_source;                   // o = number of bits to identify source
-    Bit#(i) d_sink;                     // i = number of bits to identify sink
+    Bit#(TLog#(TDiv(d, 8))) d_size;             // z = number of bits required for transfer size
+    Bit#(o) d_source;           // o = number of bits to identify source
+    Bit#(i) d_sink;             // i = number of bits to identify sink
     Bool d_denied;
     Bit#(d) d_data;
     Bool d_corrupt;
