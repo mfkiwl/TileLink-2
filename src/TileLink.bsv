@@ -55,18 +55,10 @@ typedef struct {
     // Bit#(1) a_ready
 } TileLinkChannelARequest#(numeric type z, numeric type o, numeric type a, numeric type w) deriving(Bits, Eq, FShow);
 
-`ifdef RV128
-typedef TileLinkChannelARequest#(TLog#(4), 1, 128, 4) TileLinkChannelARequest32;
-`elsif RV64
-typedef TileLinkChannelARequest#(TLog#(4), 1, 64, 4) TileLinkChannelARequest32;
-`else
-typedef TileLinkChannelARequest#(TLog#(4), 1, 32, 4) TileLinkChannelARequest32;
-`endif
-
 typedef struct {
     Bit#(3) d_opcode;
     Bit#(2) d_param;
-    Bit#(z) d_size;             // z = lot number of bits required for transfer size
+    Bit#(z) d_size;             // z = log2 number of bits required for transfer size
     Bit#(o) d_source;           // o = number of bits to identify source
     Bit#(i) d_sink;             // i = number of bits to identify sink
     Bool d_denied;
@@ -77,8 +69,3 @@ typedef struct {
     // Bit#(1) d_valid
     // Bit#(1) d_ready
 } TileLinkChannelDResponse#(numeric type z, numeric type o, numeric type i, numeric type w) deriving(Bits, Eq, FShow);
-
-typedef TileLinkChannelDResponse#(1, 1, 1, 4) TileLinkChannelDResponse32;
-
-typedef Client#(TileLinkChannelARequest32, TileLinkChannelDResponse32) TileLinkADClient32;
-typedef Server#(TileLinkChannelARequest32, TileLinkChannelDResponse32) TileLinkADServer32;
