@@ -19,29 +19,27 @@ import ClientServer::*;
 */
 
 // ChannelAOpcodes - Requests (responses on Channel D)
-typedef enum {
-    A_PUT_FULL_DATA     = 3'h0, // Put      - Response: D_ACCESS_ACK
-    A_PUT_PARTIAL_DATA  = 3'h1, // Put      - Response: D_ACCESS_ACK
-    A_ARITHMETIC_DATA   = 3'h2, // Atomic   - Response: D_ACCESS_ACK_DATA
-    A_LOGICAL_DATA      = 3'h3, // Atomic   - Response: D_ACCESS_ACK_DATA
-    A_GET               = 3'h4, // Get      - Response: D_ACCESS_ACK_DATA
-    A_INTENT            = 3'h5, // Intent   - Response: D_HINT_ACK
-    A_ACQUIRE_BLOCK     = 3'h6, // Acquire  - Response: D_GRANT, D_GRANT_DATA
-    A_ACQUIRE_PERM      = 3'h7  // Acquire  - Response: D_GRANT
-} ChannelAOpcodes deriving(Bits, Eq, FShow);
+typedef Bit#(3) ChannelAOpcode;
+ChannelAOpcode a_PUT_FULL_DATA     = 3'h0, // Put      - Response: D_ACCESS_ACK
+ChannelAOpcode a_PUT_PARTIAL_DATA  = 3'h1, // Put      - Response: D_ACCESS_ACK
+ChannelAOpcode a_ARITHMETIC_DATA   = 3'h2, // Atomic   - Response: D_ACCESS_ACK_DATA
+ChannelAOpcode a_LOGICAL_DATA      = 3'h3, // Atomic   - Response: D_ACCESS_ACK_DATA
+ChannelAOpcode a_GET               = 3'h4, // Get      - Response: D_ACCESS_ACK_DATA
+ChannelAOpcode a_INTENT            = 3'h5, // Intent   - Response: D_HINT_ACK
+ChannelAOpcode a_ACQUIRE_BLOCK     = 3'h6, // Acquire  - Response: D_GRANT, D_GRANT_DATA
+ChannelAOpcode a_ACQUIRE_PERM      = 3'h7  // Acquire  - Response: D_GRANT
 
-// ChannelDOpcodes - Responses (resquests on Channel A)
-typedef enum {
-    D_ACCESS_ACK        = 3'h0, // Put
-    D_ACCESS_ACK_DATA   = 3'h1, // Get or Atomic
-    D_HINT_ACK          = 3'h2, // Intent
-    D_GRANT             = 3'h4, // Acquire
-    D_GRANT_DATA        = 3'h5, // Acquire
-    D_RELEASE_ACK       = 3'h6  // Release
-} ChannelDOpcodes deriving(Bits, Eq, FShow);
+// ChannelDOpcodes - Responses (requests on Channel A)
+typedef Bit#(3) ChannelDOpcode;
+ChannelDOpcode d_ACCESS_ACK        = 3'h0, // Put
+ChannelDOpcode d_ACCESS_ACK_DATA   = 3'h1, // Get or Atomic
+ChannelDOpcode d_HINT_ACK          = 3'h2, // Intent
+ChannelDOpcode d_GRANT             = 3'h4, // Acquire
+ChannelDOpcode d_GRANT_DATA        = 3'h5, // Acquire
+ChannelDOpcode d_RELEASE_ACK       = 3'h6  // Release
 
 typedef struct {
-    Bit#(3) a_opcode;
+    ChannelAOpcode a_opcode;
     Bit#(3) a_param;
     Bit#(z) a_size;             // z = log2 number of bits required for transfer size
     Bit#(o) a_source;           // o = number of bits to identify source
@@ -56,7 +54,7 @@ typedef struct {
 } TileLinkChannelARequest#(numeric type z, numeric type o, numeric type a, numeric type w) deriving(Bits, Eq, FShow);
 
 typedef struct {
-    Bit#(3) d_opcode;
+    ChannelDOpcode d_opcode;
     Bit#(2) d_param;
     Bit#(z) d_size;             // z = log2 number of bits required for transfer size
     Bit#(o) d_source;           // o = number of bits to identify source
