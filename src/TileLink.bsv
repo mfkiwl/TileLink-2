@@ -20,23 +20,23 @@ import ClientServer::*;
 
 // ChannelAOpcodes - Requests (responses on Channel D)
 typedef Bit#(3) ChannelAOpcode;
-ChannelAOpcode a_PUT_FULL_DATA     = 3'h0, // Put      - Response: D_ACCESS_ACK
-ChannelAOpcode a_PUT_PARTIAL_DATA  = 3'h1, // Put      - Response: D_ACCESS_ACK
-ChannelAOpcode a_ARITHMETIC_DATA   = 3'h2, // Atomic   - Response: D_ACCESS_ACK_DATA
-ChannelAOpcode a_LOGICAL_DATA      = 3'h3, // Atomic   - Response: D_ACCESS_ACK_DATA
-ChannelAOpcode a_GET               = 3'h4, // Get      - Response: D_ACCESS_ACK_DATA
-ChannelAOpcode a_INTENT            = 3'h5, // Intent   - Response: D_HINT_ACK
-ChannelAOpcode a_ACQUIRE_BLOCK     = 3'h6, // Acquire  - Response: D_GRANT, D_GRANT_DATA
-ChannelAOpcode a_ACQUIRE_PERM      = 3'h7  // Acquire  - Response: D_GRANT
+ChannelAOpcode a_PUT_FULL_DATA     = 3'h0; // Put      - Response: D_ACCESS_ACK
+ChannelAOpcode a_PUT_PARTIAL_DATA  = 3'h1; // Put      - Response: D_ACCESS_ACK
+ChannelAOpcode a_ARITHMETIC_DATA   = 3'h2; // Atomic   - Response: D_ACCESS_ACK_DATA
+ChannelAOpcode a_LOGICAL_DATA      = 3'h3; // Atomic   - Response: D_ACCESS_ACK_DATA
+ChannelAOpcode a_GET               = 3'h4; // Get      - Response: D_ACCESS_ACK_DATA
+ChannelAOpcode a_INTENT            = 3'h5; // Intent   - Response: D_HINT_ACK
+ChannelAOpcode a_ACQUIRE_BLOCK     = 3'h6; // Acquire  - Response: D_GRANT, D_GRANT_DATA
+ChannelAOpcode a_ACQUIRE_PERM      = 3'h7;  // Acquire  - Response: D_GRANT
 
 // ChannelDOpcodes - Responses (requests on Channel A)
 typedef Bit#(3) ChannelDOpcode;
-ChannelDOpcode d_ACCESS_ACK        = 3'h0, // Put
-ChannelDOpcode d_ACCESS_ACK_DATA   = 3'h1, // Get or Atomic
-ChannelDOpcode d_HINT_ACK          = 3'h2, // Intent
-ChannelDOpcode d_GRANT             = 3'h4, // Acquire
-ChannelDOpcode d_GRANT_DATA        = 3'h5, // Acquire
-ChannelDOpcode d_RELEASE_ACK       = 3'h6  // Release
+ChannelDOpcode d_ACCESS_ACK        = 3'h0; // Put
+ChannelDOpcode d_ACCESS_ACK_DATA   = 3'h1; // Get or Atomic
+ChannelDOpcode d_HINT_ACK          = 3'h2; // Intent
+ChannelDOpcode d_GRANT             = 3'h4; // Acquire
+ChannelDOpcode d_GRANT_DATA        = 3'h5; // Acquire
+ChannelDOpcode d_RELEASE_ACK       = 3'h6; // Release
 
 typedef struct {
     ChannelAOpcode a_opcode;
